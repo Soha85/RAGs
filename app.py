@@ -113,15 +113,16 @@ temperature = st.slider("Temperature", min_value=0.0, max_value=1.5, value=0.7, 
 models_list = ['gpt2','EleutherAI/gpt-neo-2.7B','EleutherAI/gpt-j-6B','EleutherAI/gpt-neox-20b','t5-large','bigscience/bloom-3b','facebook/opt-6.7b','google/flan-t5-large','meta-llama/LLaMA-7b-hf']
 selected_model=st.selectbox("Select a model:",models_list)
 
-# Split the down part into three vertical columns
-col1, col2, col3 = st.columns(3)
+
 
 # In each column, you can display different RAG outputs
 # Button to send the question for processing
 if st.button('Ask Question'):
+
     if not st.session_state.articles_df.empty:
         rag_instance = RAG()
-
+        # Split the down part into three vertical columns
+        col1, col2, col3 = st.columns(3)
         with col1:
             st.header("Naive RAG")
             try:
