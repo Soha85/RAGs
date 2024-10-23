@@ -52,7 +52,7 @@ def rag_generate(query,context,temperature):
         return None
 
 # Streamlit UI
-st.title("Web Scraping to QA: A RAG-Based Approach")
+st.title("Different RAGs Approaches")
 # Session state for storing scraped data
 if "articles_df" not in st.session_state:
     st.session_state.articles_df = pd.DataFrame(columns=["title", "content"])
