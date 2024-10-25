@@ -135,6 +135,7 @@ if st.button('Ask Question'):
     if not st.session_state.articles_df.empty:
         rag_instance = RAG()
         N_RAG = NaiveRAG()
+        A_RAG = AdvancedRAG()
         # Split the down part into three vertical columns
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -161,16 +162,15 @@ if st.button('Ask Question'):
             st.header("Advanced RAG")
             # Output 2 from RAG goes here
             try:
-                A_RAG = AdvancedRAG()
                 vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(rag_instance.articles["all_content"])
                 best_similarity_score, best_index = A_RAG.find_best_match_index(question, vectorizer, tfidf_matrix)
                 best_matching_record = rag_instance.articles["all_content"][best_index]
                 st.write(f"Best Similarity Searh Index: {best_similarity_score:.3f}")
-                #best_similarity_score, best_matching_record = A_RAG.find_best_match(question, rag_instance.articles["all_content"])
-                #st.write(f"Best Cosine Similarity Score: {best_similarity_score:.3f}")
+                similarity_score = N_RAG.calculate_enhanced_similarity(question, best_matching_record)
+                print(f"Enhanced Similarity:, {similarity_score:.3f}")
                 augmented_input = question + ": " + best_matching_record
                 if not best_matching_record:
-                    st.write("No Keywords match found.")
+                    st.write("No Relevant match found.")
                 else:
                     call_RAG_generate(augmented_input, best_matching_record)
             except Exception as e:
