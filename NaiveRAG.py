@@ -63,6 +63,8 @@ class NaiveRAG:
         return cosine_similarity
 
     def find_best_match_keyword_search(self,query, db_records):
+        print(query)
+        print(db_records)
         best_score = 0
         best_record = None
 
