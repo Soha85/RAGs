@@ -50,7 +50,7 @@ def rag_generate(query,context):
         generated = articles_llm(f"Query: {query}\nContext: {context}\nAnswer:",max_new_tokens=100,temperature=temperature,num_return_sequences=1)
         # Check if the generation was successful and retrieve the generated text
         if generated and len(generated) > 0:
-            generated_text = generated[0]['generated_text']
+            generated_text = generated[0]['generated_text'].split('Answer')[1]
             return generated_text
         else:
             st.write("No output generated. Please check the model or input parameters.")
@@ -65,6 +65,7 @@ def call_RAG_generate(query, context):
     ans = rag_generate(query, context)
     st.write(f"Generated Answer:{ans}")
     st.write(f"Evaluation:{evaluate_rouge(ans, context)}")
+
 def call_metrices(query,context):
     cosine_score = N_RAG.calculate_cosine_similarity(query, context)
     st.write(f"Best Cosine Similarity score:{cosine_score}")
@@ -167,7 +168,7 @@ if st.button('Ask Question'):
             try:
                 vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(rag_instance.corpus_chunks)
                 best_similarity_score, best_index = A_RAG.find_best_match_index(question, vectorizer, tfidf_matrix)
-                best_matching_record = rag_instance.articles["all_content"][best_index]
+                best_matching_record = rag_instance.corpus_chunks[best_index]
                 st.write(f"Best Similarity by Search Index: {best_similarity_score:.3f}")
                 call_metrices(question,best_matching_record)
                 augmented_input = question + ": " + best_matching_record
@@ -185,7 +186,7 @@ if st.button('Ask Question'):
                 for m in ['keyword', 'vector', 'indexed']:
                     retrieval = RetrievalComponent(method=m)  # Choose from 'keyword', 'vector', 'indexed'
                     retrieval.fit(rag_instance.corpus_chunks)
-                    best_matching_record,score = retrieval.retrieve(question,rag_instance.articles["all_content"])
+                    best_matching_record,score = retrieval.retrieve(question,rag_instance.corpus_chunks)
                     st.write(f"Best {m} Similarity:, {score:.3f}")
                 call_metrices(question,best_matching_record)
                 augmented_input = question + ": " + best_matching_record
