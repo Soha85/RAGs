@@ -12,7 +12,7 @@ import numpy as np
 nlp = spacy.load("en_core_web_sm")
 class NaiveRAG:
     def __init__(self):
-        st.write('Hello in Naive RAG')
+        print('Hello in Naive RAG')
     def get_synonyms(self,word):
         synonyms = set()
         for syn in wordnet.synsets(word):
