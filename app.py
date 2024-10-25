@@ -8,6 +8,8 @@ import rouge
 from RAG import RAG
 from AdvancedRAG import AdvancedRAG
 from NaiveRAG import NaiveRAG
+from RetrievalComponent import RetrievalComponent
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 st.session_state.articles_df = RAG.articles
@@ -136,6 +138,7 @@ if st.button('Ask Question'):
         rag_instance = RAG()
         N_RAG = NaiveRAG()
         A_RAG = AdvancedRAG()
+        M_RAG = RetrievalComponent()
         # Split the down part into three vertical columns
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -180,6 +183,19 @@ if st.button('Ask Question'):
         with col3:
             st.header("Modular RAG")
             # Output 3 from RAG goes here
+            try:
+                retrieval = RetrievalComponent(method='vector')  # Choose from 'keyword', 'vector', 'indexed'
+                retrieval.fit(rag_instance.articles["all_content"])
+                best_matching_record = retrieval.retrieve(question,rag_instance.articles["all_content"])
+                similarity_score = N_RAG.calculate_enhanced_similarity(question, best_matching_record)
+                st.write(f"Enhanced Similarity:, {similarity_score:.3f}")
+                augmented_input = question + ": " + best_matching_record
+                if not best_matching_record:
+                    st.write("No Relevant match found.")
+                else:
+                    call_RAG_generate(augmented_input, best_matching_record)
+            except Exception as e:
+                st.write(f"Error in {e}")
             st.write("Generated output from RAG model 3")
     else:
         st.error("No articles available for processing.")
