@@ -3,9 +3,13 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from docutils.nodes import important
 from transformers import pipeline
 import rouge
+
+from AdvancedRAG import AdvancedRAG
 from RAG import RAG
+from AdvancedRAG import AdvancedRAG
 from NaiveRAG import NaiveRAG
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -133,22 +137,25 @@ if st.button('Ask Question'):
 
     if not st.session_state.articles_df.empty:
         rag_instance = RAG()
+        N_RAG = NaiveRAG()
         # Split the down part into three vertical columns
         col1, col2, col3 = st.columns(3)
         with col1:
             st.header("Naive RAG")
             try:
-                N_RAG = NaiveRAG()
                 best_keyword_score, best_matching_record = N_RAG.find_best_match_keyword_search(question, rag_instance.articles["all_content"])
-                st.write(f"Keywords matched:{best_matching_record} and its score:{best_keyword_score}")
+                #st.write(f"Keywords matched:{best_matching_record} and its score:{best_keyword_score}")
                 score = N_RAG.calculate_cosine_similarity(question, best_matching_record)
-                response = best_matching_record
-                similarity_score = N_RAG.calculate_enhanced_similarity(question, response)
+                st.write(f"Keyword match score:{score}")
+                st.write(f"Cosine Similarity score:{score}")
+
+                similarity_score = N_RAG.calculate_enhanced_similarity(question, best_matching_record)
+                st.write(f"Enhanced Similarity score:{similarity_score}")
                 augmented_input = question + ": " + best_matching_record
-                if not response:
+                if not best_matching_record:
                     st.write("No Keywords match found.")
                 else:
-                    call_RAG_generate(augmented_input, response)
+                    call_RAG_generate(augmented_input, best_matching_record)
             except Exception as e:
                 st.write(f"Error in {e}")
             st.write("Generated output from RAG model 1")
@@ -156,6 +163,15 @@ if st.button('Ask Question'):
         with col2:
             st.header("Advanced RAG")
             # Output 2 from RAG goes here
+            A_RAG = AdvancedRAG()
+            vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(rag_instance.articles["all_content"])
+
+            best_similarity_score, best_index = A_RAG.find_best_match(question, vectorizer, tfidf_matrix)
+            best_matching_record = rag_instance.articles["all_content"][best_index]
+
+            best_similarity_score, best_matching_record = A_RAG.find_best_match(question, rag_instance.articles["all_content"])
+            st.write(f"Best Cosine Similarity Score: {best_similarity_score:.3f}")
+
             st.write("Generated output from RAG model 2")
 
         with col3:
