@@ -127,7 +127,7 @@ if st.button('Ask Question'):
             st.header("Naive RAG")
             try:
                 N_RAG = NaiveRAG()
-                best_keyword_score, best_matching_record = N_RAG.find_best_match_keyword_search(question, rag_instance.articles)
+                best_keyword_score, best_matching_record = N_RAG.find_best_match_keyword_search(question, rag_instance.articles["all_content"])
                 st.write(f"Keywords matched:{best_matching_record} and its score:{best_keyword_score}")
                 score = N_RAG.calculate_cosine_similarity(question, best_matching_record)
                 response = best_matching_record
