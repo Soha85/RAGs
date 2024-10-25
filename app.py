@@ -43,8 +43,8 @@ def scrape_articles(site_url):
 def rag_generate(query,context):
     try:
         articles_llm = pipeline(task='text-generation', model=selected_model)
-        articles_llm.model.config.pad_token_id = articles_llm.model.config.eos_token_id
-        generated = articles_llm(f"Query: {query}\nContext: {context}\nAnswer:",max_new_tokens=500,temperature=temperature,num_return_sequences=1)
+        #articles_llm.model.config.pad_token_id = articles_llm.model.config.eos_token_id
+        generated = articles_llm(f"Query: {query}\nContext: {context}\nAnswer:",max_new_tokens=100,temperature=temperature,num_return_sequences=1)
         # Check if the generation was successful and retrieve the generated text
         if generated and len(generated) > 0:
             generated_text = generated[0]['generated_text']
