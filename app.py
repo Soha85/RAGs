@@ -147,7 +147,7 @@ if st.button('Ask Question'):
                 best_keyword_score, best_matching_record = N_RAG.find_best_match_keyword_search(question, rag_instance.articles["all_content"])
                 #st.write(f"Keywords matched:{best_matching_record} and its score:{best_keyword_score}")
                 score = N_RAG.calculate_cosine_similarity(question, best_matching_record)
-                st.write(f"Cosine Similarity score:{score}")
+                st.write(f"Best Cosine Similarity score:{score}")
 
                 similarity_score = N_RAG.calculate_enhanced_similarity(question, best_matching_record)
                 st.write(f"Enhanced Similarity score:{similarity_score}")
@@ -167,7 +167,7 @@ if st.button('Ask Question'):
                 vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(rag_instance.articles["all_content"])
                 best_similarity_score, best_index = A_RAG.find_best_match_index(question, vectorizer, tfidf_matrix)
                 best_matching_record = rag_instance.articles["all_content"][best_index]
-                st.write(f"Best Similarity Searh Index: {best_similarity_score:.3f}")
+                st.write(f"Best Similarity Search Index: {best_similarity_score:.3f}")
                 similarity_score = N_RAG.calculate_enhanced_similarity(question, best_matching_record)
                 st.write(f"Enhanced Similarity:, {similarity_score:.3f}")
                 augmented_input = question + ": " + best_matching_record
@@ -185,7 +185,8 @@ if st.button('Ask Question'):
             try:
                 retrieval = RetrievalComponent(method='vector')  # Choose from 'keyword', 'vector', 'indexed'
                 retrieval.fit(rag_instance.articles["all_content"])
-                best_matching_record = retrieval.retrieve(question,rag_instance.articles["all_content"])
+                best_matching_record,score = retrieval.retrieve(question,rag_instance.articles["all_content"])
+                st.write(f"Best Vector Similarity:, {similarity_score:.3f}")
                 similarity_score = N_RAG.calculate_enhanced_similarity(question, best_matching_record)
                 st.write(f"Enhanced Similarity:, {similarity_score:.3f}")
                 augmented_input = question + ": " + best_matching_record

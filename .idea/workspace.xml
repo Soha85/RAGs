@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70f64811-6439-48c7-9433-61de792db1dc" name="Changes" comment="Naive &amp; Advanced RAG Fixing">
-      <change afterPath="$PROJECT_DIR$/RetrievalComponent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -358,7 +356,23 @@
       <option name="project" value="LOCAL" />
       <updated>1729880310143</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Naive &amp; Advanced RAG Fixing">
+      <option name="closed" value="true" />
+      <created>1729881038126</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1729881038126</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Naive &amp; Advanced RAG Fixing">
+      <option name="closed" value="true" />
+      <created>1729881219159</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1729881219159</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
