@@ -167,7 +167,7 @@ if st.button('Ask Question'):
                 best_matching_record = rag_instance.articles["all_content"][best_index]
                 st.write(f"Best Similarity Searh Index: {best_similarity_score:.3f}")
                 similarity_score = N_RAG.calculate_enhanced_similarity(question, best_matching_record)
-                print(f"Enhanced Similarity:, {similarity_score:.3f}")
+                st.write(f"Enhanced Similarity:, {similarity_score:.3f}")
                 augmented_input = question + ": " + best_matching_record
                 if not best_matching_record:
                     st.write("No Relevant match found.")
