@@ -25,7 +25,7 @@ class AdvancedRAG:
         tfidf_matrix = vectorizer.fit_transform(records)
         return vectorizer, tfidf_matrix
 
-    def find_best_match_tfidf(self,query, vectorizer, tfidf_matrix):
+    def find_best_match_index(self,query, vectorizer, tfidf_matrix):
         query_tfidf = vectorizer.transform([query])
         similarities = cosine_similarity(query_tfidf, tfidf_matrix)
         best_index = similarities.argmax()  # Get the index of the highest similarity score

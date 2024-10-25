@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70f64811-6439-48c7-9433-61de792db1dc" name="Changes" comment="Naive &amp; Advanced RAG Fixing">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdvancedRAG.py" beforeDir="false" afterPath="$PROJECT_DIR$/AdvancedRAG.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -268,7 +270,47 @@
       <option name="project" value="LOCAL" />
       <updated>1729878776519</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Naive &amp; Advanced RAG Fixing">
+      <option name="closed" value="true" />
+      <created>1729878843030</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1729878843030</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Naive &amp; Advanced RAG Fixing">
+      <option name="closed" value="true" />
+      <created>1729878874531</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1729878874531</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Naive &amp; Advanced RAG Fixing">
+      <option name="closed" value="true" />
+      <created>1729878921984</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1729878921984</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Naive &amp; Advanced RAG Fixing">
+      <option name="closed" value="true" />
+      <created>1729879157451</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1729879157451</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Naive &amp; Advanced RAG Fixing">
+      <option name="closed" value="true" />
+      <created>1729879226086</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1729879226086</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
