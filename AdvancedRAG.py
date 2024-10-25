@@ -1,11 +1,5 @@
 import spacy
-import nltk
-
 from NaiveRAG import NaiveRAG
-
-nltk.download('wordnet')
-from nltk.corpus import wordnet
-from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
