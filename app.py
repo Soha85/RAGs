@@ -40,8 +40,9 @@ def scrape_articles(site_url):
     full_text = ' '.join(all_paragraphs)
     return title, full_text.strip()
 
-def rag_generate(query,context,temperature):
+def rag_generate(query,context):
     try:
+        st.write(query,context)
         articles_llm = pipeline(task='text-generation', model=selected_model)
         articles_llm.model.config.pad_token_id = articles_llm.model.config.eos_token_id
         generated = articles_llm(f"Query: {query}\nContext: {context}\nAnswer:",max_new_tokens=150,temperature=temperature,num_return_sequences=1)
@@ -51,8 +52,8 @@ def rag_generate(query,context,temperature):
         st.write(f"Error generating text: {e}")
         return None
 
-def call_RAG_generate(question, context, temperature):
-    ans = rag_generate(question, context, temperature)
+def call_RAG_generate(query, context):
+    ans = rag_generate(query, context)
     st.write(f"Generated Answer:{ans}")
     st.write(f"Evaluation:{evaluate_rouge(ans, context)}")
 
@@ -141,7 +142,7 @@ if st.button('Ask Question'):
                 if not response:
                     st.write("No Keywords match found.")
                 else:
-                    call_RAG_generate(augmented_input, response, temperature)
+                    call_RAG_generate(augmented_input, response)
             except Exception as e:
                 st.write(f"Error in {e}")
             st.write("Generated output from RAG model 1")
