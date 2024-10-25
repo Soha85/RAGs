@@ -165,7 +165,7 @@ if st.button('Ask Question'):
             try:
                 A_RAG = AdvancedRAG()
                 vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(rag_instance.articles["all_content"])
-                best_similarity_score, best_index = A_RAG.find_best_match(question, vectorizer, tfidf_matrix)
+                best_similarity_score, best_index = A_RAG.find_best_match_tfidf(question, vectorizer, tfidf_matrix)
                 best_matching_record = rag_instance.articles["all_content"][best_index]
                 st.write(f"Best Similarity Score: {best_similarity_score:.3f}")
                 best_similarity_score, best_matching_record = A_RAG.find_best_match(question, rag_instance.articles["all_content"])
