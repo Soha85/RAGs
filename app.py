@@ -65,6 +65,11 @@ def call_RAG_generate(query, context):
     ans = rag_generate(query, context)
     st.write(f"Generated Answer:{ans}")
     st.write(f"Evaluation:{evaluate_rouge(ans, context)}")
+def call_metrices(query,context):
+    cosine_score = N_RAG.calculate_cosine_similarity(query, context)
+    st.write(f"Best Cosine Similarity score:{cosine_score}")
+    enhanced_score = N_RAG.calculate_enhanced_similarity(query, context)
+    st.write(f"Enhanced Similarity score:{enhanced_score}")
 
 # Streamlit UI
 st.title("Different RAGs Approaches")
@@ -145,12 +150,7 @@ if st.button('Ask Question'):
             st.header("Naive RAG")
             try:
                 best_keyword_score, best_matching_record = N_RAG.find_best_match_keyword_search(question, rag_instance.articles["all_content"])
-                #st.write(f"Keywords matched:{best_matching_record} and its score:{best_keyword_score}")
-                Cosine_score = N_RAG.calculate_cosine_similarity(question, best_matching_record)
-                st.write(f"Best Cosine Similarity score:{Cosine_score}")
-
-                similarity_score = N_RAG.calculate_enhanced_similarity(question, best_matching_record)
-                st.write(f"Enhanced Similarity score:{similarity_score}")
+                call_metrices(question,best_matching_record)
                 augmented_input = question + ": " + best_matching_record
                 if not best_matching_record:
                     st.write("No Keywords match found.")
@@ -162,16 +162,12 @@ if st.button('Ask Question'):
 
         with col2:
             st.header("Advanced RAG")
-            # Output 2 from RAG goes here
             try:
                 vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(rag_instance.articles["all_content"])
                 best_similarity_score, best_index = A_RAG.find_best_match_index(question, vectorizer, tfidf_matrix)
                 best_matching_record = rag_instance.articles["all_content"][best_index]
                 st.write(f"Best Similarity Search Index: {best_similarity_score:.3f}")
-                Cosine_score = N_RAG.calculate_cosine_similarity(question, best_matching_record)
-                st.write(f"Best Cosine Similarity score:{Cosine_score}")
-                similarity_score = N_RAG.calculate_enhanced_similarity(question, best_matching_record)
-                st.write(f"Enhanced Similarity:, {similarity_score:.3f}")
+                call_metrices(question,best_matching_record)
                 augmented_input = question + ": " + best_matching_record
                 if not best_matching_record:
                     st.write("No Relevant match found.")
@@ -183,16 +179,12 @@ if st.button('Ask Question'):
 
         with col3:
             st.header("Modular RAG")
-            # Output 3 from RAG goes here
             try:
                 retrieval = RetrievalComponent(method='vector')  # Choose from 'keyword', 'vector', 'indexed'
                 retrieval.fit(rag_instance.articles["all_content"])
                 best_matching_record,score = retrieval.retrieve(question,rag_instance.articles["all_content"])
-                st.write(f"Best Vector Similarity:, {similarity_score:.3f}")
-                Cosine_score = N_RAG.calculate_cosine_similarity(question, best_matching_record)
-                st.write(f"Best Cosine Similarity score:{Cosine_score}")
-                similarity_score = N_RAG.calculate_enhanced_similarity(question, best_matching_record)
-                st.write(f"Enhanced Similarity:, {similarity_score:.3f}")
+                st.write(f"Best Vector Similarity:, {score:.3f}")
+                call_metrices(question,best_matching_record)
                 augmented_input = question + ": " + best_matching_record
                 if not best_matching_record:
                     st.write("No Relevant match found.")
