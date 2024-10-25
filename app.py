@@ -150,6 +150,7 @@ if st.button('Ask Question'):
             st.header("Naive RAG")
             try:
                 best_keyword_score, best_matching_record = N_RAG.find_best_match_keyword_search(question, rag_instance.articles["all_content"])
+                st.write(f"Best Similarity by Keyword Match: {best_keyword_score:.3f}")
                 call_metrices(question,best_matching_record)
                 augmented_input = question + ": " + best_matching_record
                 if not best_matching_record:
@@ -166,7 +167,7 @@ if st.button('Ask Question'):
                 vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(rag_instance.articles["all_content"])
                 best_similarity_score, best_index = A_RAG.find_best_match_index(question, vectorizer, tfidf_matrix)
                 best_matching_record = rag_instance.articles["all_content"][best_index]
-                st.write(f"Best Similarity Search Index: {best_similarity_score:.3f}")
+                st.write(f"Best Similarity by Search Index: {best_similarity_score:.3f}")
                 call_metrices(question,best_matching_record)
                 augmented_input = question + ": " + best_matching_record
                 if not best_matching_record:
@@ -180,10 +181,11 @@ if st.button('Ask Question'):
         with col3:
             st.header("Modular RAG")
             try:
-                retrieval = RetrievalComponent(method='vector')  # Choose from 'keyword', 'vector', 'indexed'
-                retrieval.fit(rag_instance.articles["all_content"])
-                best_matching_record,score = retrieval.retrieve(question,rag_instance.articles["all_content"])
-                st.write(f"Best Vector Similarity:, {score:.3f}")
+                for m in ['keyword', 'vector', 'indexed']:
+                    retrieval = RetrievalComponent(method=m)  # Choose from 'keyword', 'vector', 'indexed'
+                    retrieval.fit(rag_instance.articles["all_content"])
+                    best_matching_record,score = retrieval.retrieve(question,rag_instance.articles["all_content"])
+                    st.write(f"Best {m} Similarity:, {score:.3f}")
                 call_metrices(question,best_matching_record)
                 augmented_input = question + ": " + best_matching_record
                 if not best_matching_record:
