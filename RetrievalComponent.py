@@ -37,11 +37,11 @@ class RetrievalComponent:
         query_tfidf = self.vectorizer.transform([query])
         similarities = cosine_similarity(query_tfidf, self.tfidf_matrix)
         best_index = similarities.argmax()
-        return records[best_index],similarities[best_index]
+        return records[best_index],similarities[0, best_index]
 
     def indexed_search(self, query,records):
         # Assuming the tfidf_matrix is precomputed and stored
         query_tfidf = self.vectorizer.transform([query])
         similarities = cosine_similarity(query_tfidf, self.tfidf_matrix)
         best_index = similarities.argmax()
-        return records[best_index],similarities[best_index]
+        return records[best_index],similarities[0, best_index]
