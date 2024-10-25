@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70f64811-6439-48c7-9433-61de792db1dc" name="Changes" comment="Naive &amp; Advanced RAG Fixing">
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-    </list>
+    <list default="true" id="70f64811-6439-48c7-9433-61de792db1dc" name="Changes" comment="Naive, Advanced, &amp; Modular RAG Fixing" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -372,7 +370,23 @@
       <option name="project" value="LOCAL" />
       <updated>1729881219159</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Naive, Advanced, &amp; Modular RAG Fixing">
+      <option name="closed" value="true" />
+      <created>1729881560430</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1729881560430</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Naive, Advanced, &amp; Modular RAG Fixing">
+      <option name="closed" value="true" />
+      <created>1729881693821</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1729881693821</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -381,6 +395,7 @@
     <MESSAGE value="requirements" />
     <MESSAGE value="Naive RAG Fixing" />
     <MESSAGE value="Naive &amp; Advanced RAG Fixing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Naive &amp; Advanced RAG Fixing" />
+    <MESSAGE value="Naive, Advanced, &amp; Modular RAG Fixing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Naive, Advanced, &amp; Modular RAG Fixing" />
   </component>
 </project>
