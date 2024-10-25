@@ -51,6 +51,11 @@ def rag_generate(query,context,temperature):
         st.write(f"Error generating text: {e}")
         return None
 
+def call_RAG_generate(question, context, temperature):
+    ans = rag_generate(question, context, temperature)
+    st.write(f"Generated Answer:{ans}")
+    st.write(f"Evaluation:{evaluate_rouge(ans, context)}")
+
 # Streamlit UI
 st.title("Different RAGs Approaches")
 # Session state for storing scraped data
@@ -132,6 +137,11 @@ if st.button('Ask Question'):
                 score = N_RAG.calculate_cosine_similarity(question, best_matching_record)
                 response = best_matching_record
                 similarity_score = N_RAG.calculate_enhanced_similarity(question, response)
+                augmented_input = question + ": " + best_matching_record
+                if not response:
+                    st.write("No Keywords match found.")
+                else:
+                    call_RAG_generate(augmented_input, response, temperature)
             except Exception as e:
                 st.write(f"Error in {e}")
             st.write("Generated output from RAG model 1")
