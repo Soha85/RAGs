@@ -141,7 +141,7 @@ if st.button('Ask Question'):
 
     if not st.session_state.articles_df.empty:
         rag_instance = RAG()
-        records_chunks = rag_instance.prepare_data(chunk_size, overlap)
+        rag_instance.prepare_data(chunk_size, overlap)
         N_RAG = NaiveRAG()
         A_RAG = AdvancedRAG()
         M_RAG = RetrievalComponent()
@@ -150,7 +150,7 @@ if st.button('Ask Question'):
         with col1:
             st.header("Naive RAG")
             try:
-                best_keyword_score, best_matching_record = N_RAG.find_best_match_keyword_search(question, records_chunks)
+                best_keyword_score, best_matching_record = N_RAG.find_best_match_keyword_search(question, rag_instance.corpus_chunks)
                 st.write(f"Best Similarity by Keyword Match: {best_keyword_score:.3f}")
                 call_metrices(question,best_matching_record)
                 augmented_input = question + ": " + best_matching_record
@@ -165,7 +165,7 @@ if st.button('Ask Question'):
         with col2:
             st.header("Advanced RAG")
             try:
-                vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(records_chunks)
+                vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(rag_instance.corpus_chunks)
                 best_similarity_score, best_index = A_RAG.find_best_match_index(question, vectorizer, tfidf_matrix)
                 best_matching_record = rag_instance.articles["all_content"][best_index]
                 st.write(f"Best Similarity by Search Index: {best_similarity_score:.3f}")
@@ -184,7 +184,7 @@ if st.button('Ask Question'):
             try:
                 for m in ['keyword', 'vector', 'indexed']:
                     retrieval = RetrievalComponent(method=m)  # Choose from 'keyword', 'vector', 'indexed'
-                    retrieval.fit(records_chunks)
+                    retrieval.fit(rag_instance.corpus_chunks)
                     best_matching_record,score = retrieval.retrieve(question,rag_instance.articles["all_content"])
                     st.write(f"Best {m} Similarity:, {score:.3f}")
                 call_metrices(question,best_matching_record)
