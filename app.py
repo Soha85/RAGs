@@ -162,15 +162,21 @@ if st.button('Ask Question'):
         with col2:
             st.header("Advanced RAG")
             # Output 2 from RAG goes here
-            A_RAG = AdvancedRAG()
-            vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(rag_instance.articles["all_content"])
-
-            best_similarity_score, best_index = A_RAG.find_best_match(question, vectorizer, tfidf_matrix)
-            best_matching_record = rag_instance.articles["all_content"][best_index]
-            st.write(f"Best Cosine Similarity Score: {best_similarity_score:.3f}")
-            best_similarity_score, best_matching_record = A_RAG.find_best_match(question, rag_instance.articles["all_content"])
-            st.write(f"Best Cosine Similarity Score: {best_similarity_score:.3f}")
-
+            try:
+                A_RAG = AdvancedRAG()
+                vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(rag_instance.articles["all_content"])
+                best_similarity_score, best_index = A_RAG.find_best_match(question, vectorizer, tfidf_matrix)
+                best_matching_record = rag_instance.articles["all_content"][best_index]
+                st.write(f"Best Similarity Score: {best_similarity_score:.3f}")
+                best_similarity_score, best_matching_record = A_RAG.find_best_match(question, rag_instance.articles["all_content"])
+                st.write(f"Best Cosine Similarity Score: {best_similarity_score:.3f}")
+                augmented_input = question + ": " + best_matching_record
+                if not best_matching_record:
+                    st.write("No Keywords match found.")
+                else:
+                    call_RAG_generate(augmented_input, best_matching_record)
+            except Exception as e:
+                st.write(f"Error in {e}")
             st.write("Generated output from RAG model 2")
 
         with col3:
