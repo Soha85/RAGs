@@ -126,8 +126,8 @@ else:
 
 # Input for user question
 question = st.text_input("Ask a question:")
-#chunk_size = st.number_input("Chunk Size", min_value=10, max_value=500, value=50, step=50)
-#overlap = st.number_input("Overlap Size", min_value=10, max_value=500, value=50, step=10)
+chunk_size = st.number_input("Chunk Size", min_value=10, max_value=500, value=50, step=50)
+overlap = st.number_input("Overlap Size", min_value=10, max_value=500, value=50, step=10)
 #num_answers = st.number_input("Number of Retrievals", min_value=1, max_value=5, value=3, step=1)
 temperature = st.slider("Temperature", min_value=0.0, max_value=1.5, value=0.7, step=0.1)
 models_list = ['gpt2','EleutherAI/gpt-neo-2.7B','EleutherAI/gpt-j-6B','EleutherAI/gpt-neox-20b','t5-large','bigscience/bloom-3b','facebook/opt-6.7b','google/flan-t5-large','meta-llama/LLaMA-7b-hf']
@@ -141,6 +141,7 @@ if st.button('Ask Question'):
 
     if not st.session_state.articles_df.empty:
         rag_instance = RAG()
+        records_chunks = rag_instance.prepare_data(chunk_size, overlap)
         N_RAG = NaiveRAG()
         A_RAG = AdvancedRAG()
         M_RAG = RetrievalComponent()
@@ -149,7 +150,7 @@ if st.button('Ask Question'):
         with col1:
             st.header("Naive RAG")
             try:
-                best_keyword_score, best_matching_record = N_RAG.find_best_match_keyword_search(question, rag_instance.articles["all_content"])
+                best_keyword_score, best_matching_record = N_RAG.find_best_match_keyword_search(question, records_chunks)
                 st.write(f"Best Similarity by Keyword Match: {best_keyword_score:.3f}")
                 call_metrices(question,best_matching_record)
                 augmented_input = question + ": " + best_matching_record
@@ -164,7 +165,7 @@ if st.button('Ask Question'):
         with col2:
             st.header("Advanced RAG")
             try:
-                vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(rag_instance.articles["all_content"])
+                vectorizer, tfidf_matrix = A_RAG.setup_vectorizer(records_chunks)
                 best_similarity_score, best_index = A_RAG.find_best_match_index(question, vectorizer, tfidf_matrix)
                 best_matching_record = rag_instance.articles["all_content"][best_index]
                 st.write(f"Best Similarity by Search Index: {best_similarity_score:.3f}")
@@ -183,7 +184,7 @@ if st.button('Ask Question'):
             try:
                 for m in ['keyword', 'vector', 'indexed']:
                     retrieval = RetrievalComponent(method=m)  # Choose from 'keyword', 'vector', 'indexed'
-                    retrieval.fit(rag_instance.articles["all_content"])
+                    retrieval.fit(records_chunks)
                     best_matching_record,score = retrieval.retrieve(question,rag_instance.articles["all_content"])
                     st.write(f"Best {m} Similarity:, {score:.3f}")
                 call_metrices(question,best_matching_record)
