@@ -2,13 +2,13 @@ import spacy
 from NaiveRAG import NaiveRAG
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
+
 
 # Load spaCy model
 nlp = spacy.load("en_core_web_sm")
 class AdvancedRAG:
     def __init__(self):
-        print('Hello in Naive RAG')
+        print('Hello in Advanced RAG')
 
     def find_best_match(self,text_input, records):
         best_score = 0
