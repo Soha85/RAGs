@@ -45,7 +45,14 @@ def rag_generate(query,context):
         articles_llm = pipeline(task='text-generation', model=selected_model)
         articles_llm.model.config.pad_token_id = articles_llm.model.config.eos_token_id
         generated = articles_llm(f"Query: {query}\nContext: {context}\nAnswer:",max_new_tokens=500,temperature=temperature,num_return_sequences=1)
-        return generated[0]['generated_text'].split('Answer:')[1]
+        # Check if the generation was successful and retrieve the generated text
+        if generated and len(generated) > 0:
+            generated_text = generated[0]['generated_text']
+            return generated_text
+        else:
+            st.write("No output generated. Please check the model or input parameters.")
+            return None
+        #return generated[0]['generated_text'].split('Answer:')[1]
 
     except Exception as e:
         st.write(f"Error generating text: {e}")
