@@ -11,7 +11,7 @@ import numpy as np
 nlp = spacy.load("en_core_web_sm")
 class NaiveRAG:
     def __init__(self):
-        print('hello')
+        st.write('Hello in Naive RAG')
     def get_synonyms(self,word):
         synonyms = set()
         for syn in wordnet.synsets(word):
@@ -64,8 +64,8 @@ class NaiveRAG:
         return cosine_similarity
 
     def find_best_match_keyword_search(self,query, db_records):
-        print(query)
-        print(db_records)
+        st.write(query)
+        st.write(db_records)
         best_score = 0
         best_record = None
 
