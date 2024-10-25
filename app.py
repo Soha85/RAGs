@@ -159,7 +159,7 @@ if st.button('Ask Question'):
                     call_RAG_generate(augmented_input, best_matching_record)
             except Exception as e:
                 st.write(f"Error in {e}")
-            st.write("Generated output from RAG model 1")
+
 
         with col2:
             st.header("Advanced RAG")
@@ -176,7 +176,7 @@ if st.button('Ask Question'):
                     call_RAG_generate(augmented_input, best_matching_record)
             except Exception as e:
                 st.write(f"Error in {e}")
-            st.write("Generated output from RAG model 2")
+
 
         with col3:
             st.header("Modular RAG")
@@ -194,7 +194,7 @@ if st.button('Ask Question'):
                     call_RAG_generate(augmented_input, best_matching_record)
             except Exception as e:
                 st.write(f"Error in {e}")
-            st.write("Generated output from RAG model 3")
+
     else:
         st.error("No articles available for processing.")
 
