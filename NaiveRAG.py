@@ -1,3 +1,4 @@
+import streamlit as st
 import spacy
 import nltk
 nltk.download('wordnet')
