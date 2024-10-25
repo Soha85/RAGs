@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="70f64811-6439-48c7-9433-61de792db1dc" name="Changes" comment="Naive RAG Fixing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NaiveRAG.py" beforeDir="false" afterPath="$PROJECT_DIR$/NaiveRAG.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +196,23 @@
       <option name="project" value="LOCAL" />
       <updated>1729868102538</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Naive RAG Fixing">
+      <option name="closed" value="true" />
+      <created>1729870239342</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1729870239342</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Naive RAG Fixing">
+      <option name="closed" value="true" />
+      <created>1729870350668</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1729870350668</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
