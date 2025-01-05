@@ -16,6 +16,11 @@ logger = logging.getLogger(__name__)
 st.set_page_config(layout="wide")
 @st.cache_data
 
+
+st.session_state.articles_df = RAG.articles
+# Streamlit UI
+st.title("Different RAGs Approaches")
+
 def evaluate_rouge(answer,reference):
     if answer:
         evaluator = rouge.Rouge()
@@ -73,9 +78,7 @@ def call_metrices(query,context):
     st.write(f"Best Cosine Similarity score:{cosine_score}")
     enhanced_score = N_RAG.calculate_enhanced_similarity(query, context)
     st.write(f"Enhanced Similarity score:{enhanced_score}")
-st.session_state.articles_df = RAG.articles
-# Streamlit UI
-st.title("Different RAGs Approaches")
+
 # Session state for storing scraped data
 if "articles_df" not in st.session_state:
     st.session_state.articles_df = pd.DataFrame(columns=["title", "content"])
