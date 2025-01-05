@@ -20,21 +20,7 @@ if not st.session_state.articles_df.empty:
     st.write(st.session_state.articles_df)
 else:
     st.info("No articles scraped yet.")
-# Clear controls when selected website changes
-if selected_website != st.session_state.previous_website:
-    st.session_state.previous_website = selected_website
-    question = ""
-    st.empty()
-    st.session_state.articles_df = RAG.article
 
-
-# Session state for storing scraped data
-if "articles_df" not in st.session_state:
-    st.session_state.articles_df = pd.DataFrame(columns=["title", "content"])
-
-# Initialize previous_website in session state
-if "previous_website" not in st.session_state:
-    st.session_state.previous_website = None
 # Dropdown to select website
 selected_website = st.selectbox("Select a website to scrape", ['https://www.bbc.com/travel', 'https://www.bbc.com/culture'])
 
@@ -146,7 +132,21 @@ if st.button('Ask Question'):
     else:
         st.error("No articles available for processing.")
 
+# Clear controls when selected website changes
+if selected_website != st.session_state.previous_website:
+    st.session_state.previous_website = selected_website
+    question = ""
+    st.empty()
+    st.session_state.articles_df = RAG.article
 
+
+# Session state for storing scraped data
+if "articles_df" not in st.session_state:
+    st.session_state.articles_df = pd.DataFrame(columns=["title", "content"])
+
+# Initialize previous_website in session state
+if "previous_website" not in st.session_state:
+    st.session_state.previous_website = None
 
 def evaluate_rouge(answer,reference):
     if answer:
