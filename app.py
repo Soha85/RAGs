@@ -14,6 +14,63 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 st.set_page_config(layout="wide")
 st.title("Different RAGs Approaches")
+def evaluate_rouge(answer,reference):
+    if answer:
+        evaluator = rouge.Rouge()
+        return evaluator.get_scores(answer, reference)
+    else:
+        return "no score"
+
+# Function to scrape article URLs from a website
+def scrape_articles(site_url):
+    try:
+        response = requests.get(site_url, timeout=10)  # Add a timeout for safety
+        response.raise_for_status()  # Raises HTTPError for bad responses (4xx and 5xx)
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching the article: {e}")
+        return None, f"Error fetching the article: {e}"
+
+    soup = BeautifulSoup(response.content, 'html.parser')
+    # Extract text within the article (based on inspection)
+    div_elements = soup.find_all('div', {'data-component': 'text-block'})
+    all_paragraphs = []
+    title = soup.title.get_text()
+    for div in div_elements:
+        paragraphs = div.find_all('p')
+        for para in paragraphs:
+            all_paragraphs.append(para.get_text())
+
+    full_text = ' '.join(all_paragraphs)
+    return title, full_text.strip()
+
+def rag_generate(query,context):
+    try:
+        articles_llm = pipeline(task='text-generation', model=selected_model)
+        #articles_llm.model.config.pad_token_id = articles_llm.model.config.eos_token_id
+        generated = articles_llm(f"Query: {query}\nContext: {context}\nAnswer:",max_new_tokens=100,temperature=temperature,num_return_sequences=1)
+        # Check if the generation was successful and retrieve the generated text
+        if generated and len(generated) > 0:
+            generated_text = generated[0]['generated_text'].split('Answer')[1]
+            return generated_text
+        else:
+            st.write("No output generated. Please check the model or input parameters.")
+            return None
+        #return generated[0]['generated_text'].split('Answer:')[1]
+
+    except Exception as e:
+        st.write(f"Error generating text: {e}")
+        return None
+
+def call_RAG_generate(query, context):
+    ans = rag_generate(query, context)
+    st.write(f"Generated Answer:{ans}")
+    st.write(f"Evaluation:{evaluate_rouge(ans, context)}")
+
+def call_metrices(query,context):
+    cosine_score = N_RAG.calculate_cosine_similarity(query, context)
+    st.write(f"Best Cosine Similarity score:{cosine_score}")
+    enhanced_score = N_RAG.calculate_enhanced_similarity(query, context)
+    st.write(f"Enhanced Similarity score:{enhanced_score}")
 # Dropdown to select website
 selected_website = st.selectbox("Select a website to scrape", ['https://www.bbc.com/travel', 'https://www.bbc.com/culture'])
 
@@ -147,61 +204,5 @@ if "articles_df" not in st.session_state:
 if "previous_website" not in st.session_state:
     st.session_state.previous_website = None
 
-def evaluate_rouge(answer,reference):
-    if answer:
-        evaluator = rouge.Rouge()
-        return evaluator.get_scores(answer, reference)
-    else:
-        return "no score"
 
-# Function to scrape article URLs from a website
-def scrape_articles(site_url):
-    try:
-        response = requests.get(site_url, timeout=10)  # Add a timeout for safety
-        response.raise_for_status()  # Raises HTTPError for bad responses (4xx and 5xx)
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error fetching the article: {e}")
-        return None, f"Error fetching the article: {e}"
-
-    soup = BeautifulSoup(response.content, 'html.parser')
-    # Extract text within the article (based on inspection)
-    div_elements = soup.find_all('div', {'data-component': 'text-block'})
-    all_paragraphs = []
-    title = soup.title.get_text()
-    for div in div_elements:
-        paragraphs = div.find_all('p')
-        for para in paragraphs:
-            all_paragraphs.append(para.get_text())
-
-    full_text = ' '.join(all_paragraphs)
-    return title, full_text.strip()
-
-def rag_generate(query,context):
-    try:
-        articles_llm = pipeline(task='text-generation', model=selected_model)
-        #articles_llm.model.config.pad_token_id = articles_llm.model.config.eos_token_id
-        generated = articles_llm(f"Query: {query}\nContext: {context}\nAnswer:",max_new_tokens=100,temperature=temperature,num_return_sequences=1)
-        # Check if the generation was successful and retrieve the generated text
-        if generated and len(generated) > 0:
-            generated_text = generated[0]['generated_text'].split('Answer')[1]
-            return generated_text
-        else:
-            st.write("No output generated. Please check the model or input parameters.")
-            return None
-        #return generated[0]['generated_text'].split('Answer:')[1]
-
-    except Exception as e:
-        st.write(f"Error generating text: {e}")
-        return None
-
-def call_RAG_generate(query, context):
-    ans = rag_generate(query, context)
-    st.write(f"Generated Answer:{ans}")
-    st.write(f"Evaluation:{evaluate_rouge(ans, context)}")
-
-def call_metrices(query,context):
-    cosine_score = N_RAG.calculate_cosine_similarity(query, context)
-    st.write(f"Best Cosine Similarity score:{cosine_score}")
-    enhanced_score = N_RAG.calculate_enhanced_similarity(query, context)
-    st.write(f"Enhanced Similarity score:{enhanced_score}")
 
