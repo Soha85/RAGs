@@ -109,7 +109,12 @@ if st.button('Get Articles'):
         st.success("Articles successfully scraped!")
     except requests.exceptions.RequestException as e:
         st.error(f"Failed to fetch articles: {e}")
-
+# Display articles in a table (if any)
+if not st.session_state.articles_df.empty:
+    st.write(st.session_state.articles_df)
+else:
+    st.info("No articles scraped yet.")
+    
 # Input for user question
 question = st.text_input("Ask a question:")
 chunk_size = st.number_input("Chunk Size", min_value=10, max_value=500, value=100, step=50)
@@ -184,11 +189,7 @@ if st.button('Ask Question'):
         st.error("No articles available for processing.")
 
 
-# Display articles in a table (if any)
-if not st.session_state.articles_df.empty:
-    st.write(st.session_state.articles_df)
-else:
-    st.info("No articles scraped yet.")
+
     
 # Session state for storing scraped data
 if "articles_df" not in st.session_state:
