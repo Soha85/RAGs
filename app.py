@@ -14,16 +14,13 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 st.set_page_config(layout="wide")
 st.title("Different RAGs Approaches")
-
+# Dropdown to select website
+selected_website = st.selectbox("Select a website to scrape", ['https://www.bbc.com/travel', 'https://www.bbc.com/culture'])
 # Display articles in a table (if any)
 if not st.session_state.articles_df.empty:
     st.write(st.session_state.articles_df)
 else:
     st.info("No articles scraped yet.")
-
-# Dropdown to select website
-selected_website = st.selectbox("Select a website to scrape", ['https://www.bbc.com/travel', 'https://www.bbc.com/culture'])
-
 # Button to get articles
 if st.button('Get Articles'):
     article_links = []
