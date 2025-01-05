@@ -203,7 +203,7 @@ if selected_website != st.session_state.previous_website:
     st.session_state.previous_website = selected_website
     question = ""
     st.empty()
-    st.session_state.articles_df = RAG.article
+    #st.session_state.articles_df = RAG.article
 
 
 
