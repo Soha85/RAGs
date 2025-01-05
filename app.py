@@ -129,8 +129,8 @@ else:
 
 # Input for user question
 question = st.text_input("Ask a question:")
-chunk_size = st.number_input("Chunk Size", min_value=10, max_value=500, value=50, step=50)
-overlap = st.number_input("Overlap Size", min_value=10, max_value=500, value=50, step=10)
+chunk_size = st.number_input("Chunk Size", min_value=10, max_value=500, value=100, step=50)
+overlap = st.number_input("Overlap Size", min_value=10, max_value=500, value=10, step=10)
 #num_answers = st.number_input("Number of Retrievals", min_value=1, max_value=5, value=3, step=1)
 temperature = st.slider("Temperature", min_value=0.0, max_value=1.5, value=0.7, step=0.1)
 models_list = ['gpt2','EleutherAI/gpt-neo-2.7B','EleutherAI/gpt-j-6B','EleutherAI/gpt-neox-20b','t5-large','bigscience/bloom-3b','facebook/opt-6.7b','google/flan-t5-large','meta-llama/LLaMA-7b-hf']
