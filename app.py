@@ -183,12 +183,6 @@ if st.button('Ask Question'):
     else:
         st.error("No articles available for processing.")
 
-# Clear controls when selected website changes
-if selected_website != st.session_state.previous_website:
-    st.session_state.previous_website = selected_website
-    question = ""
-    st.empty()
-    st.session_state.articles_df = RAG.article
 
 # Display articles in a table (if any)
 if not st.session_state.articles_df.empty:
@@ -203,6 +197,14 @@ if "articles_df" not in st.session_state:
 # Initialize previous_website in session state
 if "previous_website" not in st.session_state:
     st.session_state.previous_website = None
+
+# Clear controls when selected website changes
+if selected_website != st.session_state.previous_website:
+    st.session_state.previous_website = selected_website
+    question = ""
+    st.empty()
+    st.session_state.articles_df = RAG.article
+
 
 
 
