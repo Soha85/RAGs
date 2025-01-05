@@ -14,6 +14,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 st.set_page_config(layout="wide")
 st.title("Different RAGs Approaches")
+
 def evaluate_rouge(answer,reference):
     if answer:
         evaluator = rouge.Rouge()
@@ -71,9 +72,10 @@ def call_metrices(query,context):
     st.write(f"Best Cosine Similarity score:{cosine_score}")
     enhanced_score = N_RAG.calculate_enhanced_similarity(query, context)
     st.write(f"Enhanced Similarity score:{enhanced_score}")
+
+
 # Dropdown to select website
 selected_website = st.selectbox("Select a website to scrape", ['https://www.bbc.com/travel', 'https://www.bbc.com/culture'])
-
 
 # Button to get articles
 if st.button('Get Articles'):
@@ -104,7 +106,6 @@ if st.button('Get Articles'):
             # Display articles in a table
             RAG.articles = pd.DataFrame({'title': titles, 'content': articles})
 
-
         st.session_state.articles_df = RAG.articles
         st.success("Articles successfully scraped!")
     except requests.exceptions.RequestException as e:
@@ -113,8 +114,8 @@ if st.button('Get Articles'):
 # Session state for storing scraped data
 if "articles_df" not in st.session_state:
     st.session_state.articles_df = pd.DataFrame(columns=["title", "content"])
-# Display articles in a table (if any)
-if "articles_df" not in st.session_state:
+else:    
+    # Display articles in a table (if any)
     if not st.session_state.articles_df.empty:
         st.write(st.session_state.articles_df)
     else:
@@ -192,10 +193,6 @@ if st.button('Ask Question'):
 
     else:
         st.error("No articles available for processing.")
-
-
-
-    
 
 
 # Initialize previous_website in session state
