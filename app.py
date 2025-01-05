@@ -16,9 +16,7 @@ st.set_page_config(layout="wide")
 st.title("Different RAGs Approaches")
 # Dropdown to select website
 selected_website = st.selectbox("Select a website to scrape", ['https://www.bbc.com/travel', 'https://www.bbc.com/culture'])
-# Display articles in a table (if any)
-if not st.session_state.articles_df.empty:
-    st.write(st.session_state.articles_df)
+
 else:
     st.info("No articles scraped yet.")
 # Button to get articles
@@ -136,7 +134,10 @@ if selected_website != st.session_state.previous_website:
     st.empty()
     st.session_state.articles_df = RAG.article
 
-
+# Display articles in a table (if any)
+if not st.session_state.articles_df.empty:
+    st.write(st.session_state.articles_df)
+    
 # Session state for storing scraped data
 if "articles_df" not in st.session_state:
     st.session_state.articles_df = pd.DataFrame(columns=["title", "content"])
